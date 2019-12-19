@@ -28,6 +28,7 @@ class Field {
     uint64_t field0  = ~interior;
     uint64_t field1  = all;
     uint64_t winMask = 0;
+    bool     player  = false;
 
     uint8_t scan(uint64_t const playerCells, uint64_t cell, int8_t const shift, uint64_t& mask) {
       int count = 0;
@@ -56,7 +57,11 @@ class Field {
 
   public:
     bool operator==(const Field& other) const {
-      return field0 == other.field0 && field1 == other.field1 && winMask == other.winMask;
+      return
+        field0  == other.field0  &&
+        field1  == other.field1  &&
+        winMask == other.winMask &&
+        player  == other.player;
     }
 
     bool operator!=(const Field& other) const {
@@ -79,9 +84,10 @@ class Field {
       field0 &= ~interior;
       field1 |=  interior;
       winMask = 0;
+      player  = false;
     }
 
-    bool play(uint8_t index, bool player) {
+    bool play(uint8_t index) {
       if (winMask) {
         return false;
       }
@@ -116,10 +122,14 @@ class Field {
         scan(playerCells, cell, 8); // check horizontal
       }
 
+      if (cell && !winMask) {
+        player ^= true;
+      }
+
       return cell != 0;
     }
 
-    bool update_info(bool flag, bool player) {
+    bool update_info(bool flag) {
       auto const fieldOld(*this);
 
       field0 |= info[!flag];
@@ -138,9 +148,9 @@ class Field {
           field1 |= winMask;
         } else {
           if (player) {
-            field0 &= ~winMask;
-          } else {
             field0 |= winMask;
+          } else {
+            field0 &= ~winMask;
           }
           field1 &= ~winMask;
         }
@@ -157,14 +167,11 @@ void show_field() {
   trellis.show();
 }
 
-bool player = false;
-
 TrellisCallback onKey(keyEvent evt) {
   if (evt.bit.NUM == 63) {
     field.clear();
     show_field();
-  } else if (field.play(evt.bit.NUM, player)) {
-    player ^= true;
+  } else if (field.play(evt.bit.NUM)) {
     show_field();
   }
 
@@ -198,7 +205,7 @@ void loop() {
 
   auto const pulse(millis() % 1000 < 500);
 
-  if (field.update_info(pulse, player)) {
+  if (field.update_info(pulse)) {
     show_field();
   }
 
