@@ -24,8 +24,8 @@ class Field {
     static uint64_t const interior   = 0x007e7e7e7e7e7e7eull;
     static uint64_t const upper_half = 0x000e0e0e0e0e0e0eull;
 
-    uint64_t field0 = ~interior;
-    uint64_t field1 = 0xffffffffffffffffull;
+    uint64_t field0  = ~interior;
+    uint64_t field1  = 0xffffffffffffffffull;
     uint64_t winMask = 0;
 
     uint8_t scan(uint64_t const playerCells, uint64_t cell, int8_t const shift, uint64_t& mask) {
@@ -54,8 +54,6 @@ class Field {
     }
 
   public:
-    Field() { }
-
     bool operator==(const Field& other) const {
       return field0 == other.field0 && field1 == other.field1;
     }
@@ -78,7 +76,7 @@ class Field {
 
     void clear() {
       field0 &= ~interior;
-      field1 |= interior;
+      field1 |=  interior;
       winMask = 0;
     }
 
@@ -93,9 +91,9 @@ class Field {
         return false;
       }
 
-      auto const column = static_cast<uint64_t>(0x7e) << (8 * y);
+      auto const column    = static_cast<uint64_t>(0x7e) << (8 * y);
       auto const freeCells = field1 & column;
-      auto const cell = (freeCells ^ (freeCells >> 1)) & freeCells;
+      auto const cell      = (freeCells ^ (freeCells >> 1)) & freeCells;
 
       if (cell != 0) {
         field1 ^= cell;
