@@ -64,7 +64,7 @@ class Field {
 
     uint32_t get_color(uint8_t index) const {
       uint64_t const fieldMask = one << index;
-      uint8_t  const field = ((field0 & fieldMask) != 0) | (((field1 & fieldMask) != 0) << 1);
+      uint8_t  const field     = !!(field0 & fieldMask) | (!!(field1 & fieldMask) << 1);
 
       switch (field) {
         case 0: return 0x4f0000; // player 0
@@ -91,17 +91,15 @@ class Field {
         return false;
       }
 
-      auto const column    = static_cast<uint64_t>(0x7e) << (8 * y);
+      auto const column    = uint64_t(0x7e) << (8 * y);
       auto const freeCells = field1 & column;
       auto const cell      = (freeCells ^ (freeCells >> 1)) & freeCells;
 
       if (cell != 0) {
         field1 ^= cell;
-        if (player) {
-          field0 ^= cell;
-        }
+        field0 ^= cell * player;
 
-        auto const playerCells = (player ? field0 : ~field0) & ~field1;
+        auto const playerCells = ((uint64_t(player) - 1) ^ field0) & ~field1;
 
         if (cell & upper_half) { // check vertical (actually just down)
           auto const downMask = cell * 0xf;
