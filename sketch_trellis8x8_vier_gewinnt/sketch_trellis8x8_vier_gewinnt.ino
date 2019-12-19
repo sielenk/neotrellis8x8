@@ -199,7 +199,7 @@ void loop() {
     trellis.read();
   }
 
-  auto const pulse(millis() % 2000 < 1000);
+  auto const pulse(millis() % 1000 < 500);
 
   if (field.update_info(pulse, player)) {
     show_field();
