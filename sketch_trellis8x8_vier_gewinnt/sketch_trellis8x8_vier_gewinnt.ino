@@ -111,11 +111,12 @@ class Field {
           if ((playerCells & downMask) == downMask) {
             winMask = downMask;
           }
+
+          scan(playerCells, cell, 7); // check diagonal 1
+          scan(playerCells, cell, 9); // check diagonal 2
         }
 
-        scan(playerCells, cell, 7); // check diagonal 1
         scan(playerCells, cell, 8); // check horizontal
-        scan(playerCells, cell, 9); // check diagonal 2
       }
 
       return cell != 0;
