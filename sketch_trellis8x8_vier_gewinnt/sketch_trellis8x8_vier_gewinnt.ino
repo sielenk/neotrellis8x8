@@ -20,18 +20,6 @@ void setAll(uint32_t color) {
 uint64_t const one = 1;
 uint64_t const info[2] = { one, one << 56 };
 
-
-char buf[17] = { };
-
-char* hex(uint64_t val) {
-  for (int i = 0; i < 16; ++i) {
-    auto& c(buf[15 - i]);
-    c = (val >> (4 * i)) & 0xf;
-    c += c < 10 ? '0' : 'a' - 10;
-  }
-  return buf;
-}
-
 class Field {
     static uint64_t const interior = 0x007e7e7e7e7e7e7eull;
 
@@ -44,7 +32,7 @@ class Field {
       while (cell) {
         cell = (shift > 0) ? (cell << shift) : (cell >> -shift);
         cell &= interior;
-        
+
         if (playerCells & cell) {
           ++count;
           mask |= cell;
@@ -94,12 +82,6 @@ class Field {
     }
 
     bool play(uint8_t index, bool player) {
-      Serial.print("play ");
-      Serial.print(index);
-      Serial.print(" ");
-      Serial.print(player);
-      Serial.println();
-
       if (winMask) {
         return false;
       }
@@ -121,9 +103,6 @@ class Field {
         }
 
         auto const playerCells = (player ? field0 : ~field0) & ~field1;
-
-        Serial.print("cell=");
-        Serial.println(hex(playerCells));
 
         if (cell & 0x000e0e0e0e0e0e0eull) {// check down
           auto const downMask = cell * 0xf;
@@ -196,8 +175,6 @@ TrellisCallback onKey(keyEvent evt) {
 #define INT_PIN 13
 
 void setup() {
-  Serial.begin(9600);
-
   pinMode(INT_PIN, INPUT);
 
   trellis.begin();
