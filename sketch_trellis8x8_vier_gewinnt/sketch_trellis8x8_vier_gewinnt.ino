@@ -63,10 +63,10 @@ class Field {
     }
 
     uint32_t get_color(uint8_t index) const {
-      uint64_t const fieldMask = one << index;
-      uint8_t  const field     = !!(field0 & fieldMask) | (!!(field1 & fieldMask) << 1);
+      uint64_t const cell = one << index;
+      uint8_t  const mode = !!(field0 & cell) | (!!(field1 & cell) << 1);
 
-      switch (field) {
+      switch (mode) {
         case 0: return 0x4f0000; // player 0
         case 1: return 0x4f4f00; // player 1
         case 2: return 0x000000; // free
