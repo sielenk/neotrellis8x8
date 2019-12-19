@@ -105,7 +105,7 @@ class Field {
 
         auto const playerCells = (player ? field0 : ~field0) & ~field1;
 
-        if (cell & upper_half) { // check down
+        if (cell & upper_half) { // check vertical (actually just down)
           auto const downMask = cell * 0xf;
 
           if ((playerCells & downMask) == downMask) {
@@ -113,9 +113,9 @@ class Field {
           }
         }
 
-        scan(playerCells, cell, 7);
-        scan(playerCells, cell, 8);
-        scan(playerCells, cell, 9);
+        scan(playerCells, cell, 7); // check diagonal 1
+        scan(playerCells, cell, 8); // check horizontal
+        scan(playerCells, cell, 9); // check diagonal 2
       }
 
       return cell != 0;
