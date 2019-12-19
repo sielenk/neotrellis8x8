@@ -55,7 +55,7 @@ class Field {
 
   public:
     bool operator==(const Field& other) const {
-      return field0 == other.field0 && field1 == other.field1;
+      return field0 == other.field0 && field1 == other.field1 && winMask == other.winMask;
     }
 
     bool operator!=(const Field& other) const {
