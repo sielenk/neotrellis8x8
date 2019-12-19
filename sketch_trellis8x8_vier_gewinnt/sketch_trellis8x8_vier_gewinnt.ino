@@ -17,7 +17,8 @@ void setAll(uint32_t color) {
   }
 }
 
-uint64_t const one = 1;
+uint64_t const one = 0x0000000000000001ull;
+uint64_t const all = 0xffffffffffffffffull;
 uint64_t const info[2] = { one, one << 56 };
 
 class Field {
@@ -25,7 +26,7 @@ class Field {
     static uint64_t const upper_half = 0x000e0e0e0e0e0e0eull;
 
     uint64_t field0  = ~interior;
-    uint64_t field1  = 0xffffffffffffffffull;
+    uint64_t field1  = all;
     uint64_t winMask = 0;
 
     uint8_t scan(uint64_t const playerCells, uint64_t cell, int8_t const shift, uint64_t& mask) {
