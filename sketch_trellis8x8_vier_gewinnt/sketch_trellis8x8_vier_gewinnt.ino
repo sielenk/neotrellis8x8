@@ -21,7 +21,8 @@ uint64_t const one = 1;
 uint64_t const info[2] = { one, one << 56 };
 
 class Field {
-    static uint64_t const interior = 0x007e7e7e7e7e7e7eull;
+    static uint64_t const interior   = 0x007e7e7e7e7e7e7eull;
+    static uint64_t const upper_half = 0x000e0e0e0e0e0e0eull;
 
     uint64_t field0 = ~interior;
     uint64_t field1 = 0xffffffffffffffffull;
@@ -104,7 +105,7 @@ class Field {
 
         auto const playerCells = (player ? field0 : ~field0) & ~field1;
 
-        if (cell & 0x000e0e0e0e0e0e0eull) {// check down
+        if (cell & upper_half) { // check down
           auto const downMask = cell * 0xf;
 
           if ((playerCells & downMask) == downMask) {
