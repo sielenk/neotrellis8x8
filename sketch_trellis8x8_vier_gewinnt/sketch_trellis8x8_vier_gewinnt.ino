@@ -106,7 +106,7 @@ class Field {
         field1 ^= cell;
         field0 ^= cell * player;
 
-        auto const playerCells = ((uint64_t(player) - 1) ^ field0) & ~field1;
+        auto const playerCells = ((all * !player) ^ field0) & ~field1;
 
         if (cell & upper_half) { // check vertical (actually just down)
           auto const downMask = cell * 0xf;
