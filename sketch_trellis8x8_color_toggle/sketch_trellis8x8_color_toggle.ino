@@ -1,13 +1,13 @@
 #include <Adafruit_NeoTrellis.h>
 
 Adafruit_NeoTrellis trelli[4] = {
-  Adafruit_NeoTrellis(NEO_TRELLIS_ADDR),
-  Adafruit_NeoTrellis(NEO_TRELLIS_ADDR + 1),
-  Adafruit_NeoTrellis(NEO_TRELLIS_ADDR + 2),
-  Adafruit_NeoTrellis(NEO_TRELLIS_ADDR + 3)
+  Adafruit_NeoTrellis{NEO_TRELLIS_ADDR},
+  Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 1},
+  Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 2},
+  Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 3}
 };
 
-auto trellis = Adafruit_MultiTrellis(trelli, 2, 2);
+auto trellis = Adafruit_MultiTrellis{trelli, 2, 2};
 
 void setAll(uint32_t color) {
   for (uint8_t i = 0; i < 64; i++) {
