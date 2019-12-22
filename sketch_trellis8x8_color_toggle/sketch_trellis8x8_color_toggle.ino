@@ -13,7 +13,7 @@ void setAll(uint32_t color) {
   for (uint8_t i = 0; i < 64; i++) {
     trellis.setPixelColor(i, color);
     trellis.show();
-    delay(20);
+    delay(5);
   }
 }
 
