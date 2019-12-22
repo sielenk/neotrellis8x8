@@ -44,9 +44,9 @@ void setup() {
 
   trellis.begin();
 
-  setAll(0x00007f);
-  setAll(0x007f00);
-  setAll(0x7f0000);
+  setAll(0x00004f);
+  setAll(0x004f00);
+  setAll(0x4f0000);
   setAll(0x000000);
 
   for (uint8_t i = 0; i < 64; ++i) {
