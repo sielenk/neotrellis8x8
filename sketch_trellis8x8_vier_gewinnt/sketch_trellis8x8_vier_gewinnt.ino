@@ -178,11 +178,11 @@ TrellisCallback onKey(keyEvent evt) {
   return nullptr;
 }
 
-#define INT_PIN 13
+#define INT_PIN 14
 
 void setup() {
+  Serial.begin(74880);
   pinMode(INT_PIN, INPUT);
-
   trellis.begin();
 
   setAll(0x00004f);
