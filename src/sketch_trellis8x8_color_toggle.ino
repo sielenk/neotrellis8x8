@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <Adafruit_NeoTrellis.h>
 
 Adafruit_NeoTrellis trelli[4] = {
