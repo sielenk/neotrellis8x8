@@ -51,6 +51,38 @@ TrellisCallback onKey(keyEvent evt)
   return nullptr;
 }
 
+void handlerRoot()
+{
+  String buffer;
+
+  buffer += "<!DOCTYPE html><html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body><table border='1'>";
+  for (uint8_t y = 0; y < 8; ++y)
+  {
+    buffer += "<tr>";
+    for (uint8_t x = 0; x < 8; ++x)
+    {
+      auto const i((y << 3) | x);
+      auto const c(colors[i]);
+
+      buffer += "<td style='background-color: #";
+      buffer += (c & 1) ? "ff" : "00";
+      buffer += (c & 2) ? "ff" : "00";
+      buffer += (c & 4) ? "ff" : "00";
+      buffer += ";'>";
+      buffer += i;
+      buffer += " ";
+      buffer += static_cast<int>(c);
+      buffer += "</td>";
+    }
+    buffer += "</tr>";
+  }
+  buffer += "</table></body></html>";
+
+  //buffer << analogRead(ANALOG_PIN);
+
+  server.send(200, "text/html", buffer.c_str(), buffer.length());
+}
+
 void handlerIcon()
 {
   auto file = SPIFFS.open("/favicon.ico", "r");
@@ -88,6 +120,7 @@ void setup()
     trellis.registerCallback(i, &onKey);
   }
 
+  server.on("/", HTTP_GET, handlerRoot);
   server.on("/favicon.ico", HTTP_GET, handlerIcon);
   server.begin();
   Serial.println("HTTP server started");
