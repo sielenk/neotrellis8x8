@@ -3,7 +3,10 @@
 #include <ESP8266WebServer.h>
 #include <DNSServer.h>
 #include <WiFiManager.h>
+#include <FS.h>
 #include <Adafruit_NeoTrellis.h>
+
+#include <memory>
 
 #define INT_PIN 14
 #define ANALOG_PIN A0
@@ -17,6 +20,7 @@ Adafruit_NeoTrellis trelli[4] = {
 auto trellis = Adafruit_MultiTrellis{trelli, 2, 2};
 
 WiFiManager wifiManager;
+ESP8266WebServer server;
 
 void setAll(uint32_t color)
 {
@@ -47,6 +51,19 @@ TrellisCallback onKey(keyEvent evt)
   return nullptr;
 }
 
+void handlerIcon()
+{
+  auto file = SPIFFS.open("/favicon.ico", "r");
+  auto const size = file.size();
+  auto const buffer = std::unique_ptr<char>{new char[size]};
+
+  Serial.printf("size = %d\r\n", size);
+
+  file.readBytes(buffer.get(), size);
+  server.send(200, "image/x-icon", buffer.get(), size);
+
+  file.close();
+}
 
 void setup()
 {
@@ -58,6 +75,7 @@ void setup()
   pinMode(INT_PIN, INPUT);
 
   Serial.printf("trellis: %s\r\n", trellis.begin() ? "succeeded" : "failed");
+  Serial.printf("SPIFFS: %s\r\n", SPIFFS.begin() ? "succeeded" : "failed");
 
   setAll(0x00004f);
   setAll(0x004f00);
@@ -69,6 +87,10 @@ void setup()
     trellis.activateKey(i, SEESAW_KEYPAD_EDGE_RISING);
     trellis.registerCallback(i, &onKey);
   }
+
+  server.on("/favicon.ico", HTTP_GET, handlerIcon);
+  server.begin();
+  Serial.println("HTTP server started");
 
   Serial.println("setup - end");
 }
@@ -91,6 +113,8 @@ void loop()
   {
     trellis.read();
   }
+
+  server.handleClient();
 
   delay(2);
 }
