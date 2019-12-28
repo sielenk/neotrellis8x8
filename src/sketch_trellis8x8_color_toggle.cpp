@@ -5,6 +5,9 @@
 #include <WiFiManager.h>
 #include <Adafruit_NeoTrellis.h>
 
+#define INT_PIN 14
+#define ANALOG_PIN A0
+
 Adafruit_NeoTrellis trelli[4] = {
     Adafruit_NeoTrellis{NEO_TRELLIS_ADDR},
     Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 1},
@@ -44,8 +47,6 @@ TrellisCallback onKey(keyEvent evt)
   return nullptr;
 }
 
-#define INT_PIN 14
-#define ANALOG_PIN A0
 
 void setup()
 {
