@@ -37,7 +37,7 @@ uint8_t colors[64] = {};
 TrellisCallback onKey(keyEvent evt)
 {
   uint8_t &color = colors[evt.bit.NUM];
-  ++color;
+  color = (color + 1) & 7;
 
   uint32_t const pixelColor =
       (((color & 1) != 0) * 0x4f0000) |
