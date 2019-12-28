@@ -36,6 +36,7 @@ TrellisCallback onKey(keyEvent evt) {
 }
 
 #define INT_PIN 14
+#define ANALOG_PIN A0
 
 void setup() {
   Serial.begin(74880);
@@ -53,7 +54,20 @@ void setup() {
   }
 }
 
+unsigned long secondsOld;
+
 void loop() {
+  unsigned long const secondsNew = millis() / 1000;
+
+  if (secondsOld != secondsNew) {
+    auto const val = analogRead(ANALOG_PIN);
+    Serial.print(secondsNew);
+    Serial.print("\t");
+    Serial.println(val);
+
+    secondsOld = secondsNew;
+  }
+
   if (!digitalRead(INT_PIN)) {
     trellis.read();
   }
