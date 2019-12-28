@@ -1,4 +1,8 @@
 #include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+#include <DNSServer.h>
+#include <WiFiManager.h>
 #include <Adafruit_NeoTrellis.h>
 
 Adafruit_NeoTrellis trelli[4] = {
@@ -8,6 +12,8 @@ Adafruit_NeoTrellis trelli[4] = {
     Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 3}};
 
 auto trellis = Adafruit_MultiTrellis{trelli, 2, 2};
+
+WiFiManager wifiManager;
 
 void setAll(uint32_t color)
 {
@@ -45,6 +51,9 @@ void setup()
 {
   Serial.begin(74880);
   Serial.println("setup - start");
+
+  wifiManager.autoConnect();
+
   pinMode(INT_PIN, INPUT);
 
   Serial.printf("trellis: %s\r\n", trellis.begin() ? "succeeded" : "failed");
