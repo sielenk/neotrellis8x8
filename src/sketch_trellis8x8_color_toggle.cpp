@@ -44,8 +44,10 @@ TrellisCallback onKey(keyEvent evt)
 void setup()
 {
   Serial.begin(74880);
+  Serial.println("setup - start");
   pinMode(INT_PIN, INPUT);
-  trellis.begin();
+
+  Serial.printf("trellis: %s\r\n", trellis.begin() ? "succeeded" : "failed");
 
   setAll(0x00004f);
   setAll(0x004f00);
@@ -57,6 +59,8 @@ void setup()
     trellis.activateKey(i, SEESAW_KEYPAD_EDGE_RISING);
     trellis.registerCallback(i, &onKey);
   }
+
+  Serial.println("setup - end");
 }
 
 unsigned long secondsOld;
@@ -68,9 +72,7 @@ void loop()
   if (secondsOld != secondsNew)
   {
     auto const val = analogRead(ANALOG_PIN);
-    Serial.print(secondsNew);
-    Serial.print("\t");
-    Serial.println(val);
+    Serial.printf("%lu\t%d\r\n", secondsNew, val);
 
     secondsOld = secondsNew;
   }
