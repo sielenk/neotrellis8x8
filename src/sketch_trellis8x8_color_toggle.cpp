@@ -51,6 +51,11 @@ TrellisCallback onKey(keyEvent evt)
   return nullptr;
 }
 
+float getBatteryVoltage() {
+  // adjusted according to measured values on my device
+  return (analogRead(ANALOG_PIN) * 3.87f) / 834;
+}
+
 void handlerRoot()
 {
   String buffer;
@@ -76,9 +81,9 @@ void handlerRoot()
     }
     buffer += "</tr>";
   }
-  buffer += "</table></body></html>";
-
-  //buffer << analogRead(ANALOG_PIN);
+  buffer += "</table><p>Battery voltage: ";
+  buffer += getBatteryVoltage();
+  buffer += "V</p></body></html>";
 
   server.send(200, "text/html", buffer.c_str(), buffer.length());
 }
@@ -136,8 +141,8 @@ void loop()
 
   if (secondsOld != secondsNew)
   {
-    auto const val = analogRead(ANALOG_PIN);
-    Serial.printf("%lu\t%d\r\n", secondsNew, val);
+    auto const val = getBatteryVoltage();
+    Serial.printf("%lu\t%05.3fV\r\n", secondsNew, val);
 
     secondsOld = secondsNew;
   }
