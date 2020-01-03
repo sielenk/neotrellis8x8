@@ -5,6 +5,7 @@
 #include <WiFiManager.h>
 #include <FS.h>
 #include <Adafruit_NeoTrellis.h>
+#include <Schedule.h>
 
 #include <memory>
 
@@ -103,6 +104,13 @@ void handlerIcon()
   file.close();
 }
 
+void ICACHE_RAM_ATTR handlerKeyInterrupt()
+{
+  schedule_function([]() {
+    trellis.read();
+  });
+}
+
 void setup()
 {
   Serial.begin(74880);
@@ -111,6 +119,7 @@ void setup()
   wifiManager.autoConnect();
 
   pinMode(INT_PIN, INPUT);
+  attachInterrupt(INT_PIN, &handlerKeyInterrupt, FALLING);
 
   Serial.printf("trellis: %s\r\n", trellis.begin() ? "succeeded" : "failed");
   Serial.printf("SPIFFS: %s\r\n", SPIFFS.begin() ? "succeeded" : "failed");
@@ -146,11 +155,6 @@ void loop()
     Serial.printf("%lu\t%05.3fV\r\n", secondsNew, val);
 
     secondsOld = secondsNew;
-  }
-
-  if (!digitalRead(INT_PIN))
-  {
-    trellis.read();
   }
 
   server.handleClient();
