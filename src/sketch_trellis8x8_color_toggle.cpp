@@ -45,13 +45,14 @@ TrellisCallback onKey(keyEvent evt)
       (((color & 4) != 0) * 0x00004f) |
       0;
 
-  trellis.setPixelColor(evt.bit.NUM, pixelColor); //on rising
+  trellis.setPixelColor(evt.bit.NUM, pixelColor);
   trellis.show();
 
   return nullptr;
 }
 
-float getBatteryVoltage() {
+float getBatteryVoltage()
+{
   // adjusted according to measured values on my device
   return (analogRead(ANALOG_PIN) * 3.87f) / 834;
 }
