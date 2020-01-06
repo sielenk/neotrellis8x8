@@ -52,10 +52,10 @@ TrellisCallback onKey(keyEvent evt)
   return nullptr;
 }
 
-float getBatteryVoltage()
+double getBatteryVoltage()
 {
   // adjusted according to measured values on my device
-  return (analogRead(ANALOG_PIN) * 3.87f) / 834;
+  return (analogRead(ANALOG_PIN) * 3.87) / 834.0;
 }
 
 void handlerRoot()
