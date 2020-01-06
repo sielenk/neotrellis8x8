@@ -107,12 +107,7 @@ TrellisCallback onKey(keyEvent evt)
         }
       }
 
-      if (rp[0] && rp[1] && rp[2])
-      {
-        // draw
-        winner = 0;
-      }
-      else if (rp[0] == 1 || rp[1] == 1 || rp[2] == 1 || cp[0] == 1 || cp[1] == 1 || cp[2] == 1 || dp0 == 1 || dp1 == 1)
+      if (rp[0] == 1 || rp[1] == 1 || rp[2] == 1 || cp[0] == 1 || cp[1] == 1 || cp[2] == 1 || dp0 == 1 || dp1 == 1)
       {
         // win player 1
         winner = 1;
@@ -121,6 +116,11 @@ TrellisCallback onKey(keyEvent evt)
       {
         // win player 2
         winner = 2;
+      }
+      else if (rp[0] && rp[1] && rp[2])
+      {
+        // draw
+        winner = 0;
       }
       else
       {
