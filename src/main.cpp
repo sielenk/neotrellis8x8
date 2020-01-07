@@ -204,13 +204,6 @@ void handlerIcon()
   file.close();
 }
 
-void ICACHE_RAM_ATTR handlerKeyInterrupt()
-{
-  schedule_function([]() {
-    trellis.read();
-  });
-}
-
 void setup()
 {
   Serial.begin(74880);
@@ -219,7 +212,6 @@ void setup()
   wifiManager.autoConnect();
 
   pinMode(INT_PIN, INPUT);
-  attachInterrupt(INT_PIN, &handlerKeyInterrupt, FALLING);
 
   Serial.printf("trellis: %s\r\n", trellis.begin() ? "succeeded" : "failed");
   Serial.printf("SPIFFS: %s\r\n", SPIFFS.begin() ? "succeeded" : "failed");
@@ -256,6 +248,11 @@ unsigned long secondsOld;
 
 void loop()
 {
+  if (digitalRead(INT_PIN) == 0)
+  {
+    trellis.read();
+  }
+
   unsigned long const secondsNew = millis() / 1000;
 
   if (secondsOld != secondsNew)
