@@ -10,6 +10,7 @@
 #include <Schedule.h>
 
 #include "Game.hpp"
+#include "TicTacToe.hpp"
 
 #define INT_PIN 14
 #define ANALOG_PIN A0
@@ -166,7 +167,7 @@ void setup()
     trellis.registerCallback(i, &onKey);
   }
 
-  gamePtr = std::make_shared<Game>();
+  gamePtr = createTicTacToe();
 
   showGame();
 
