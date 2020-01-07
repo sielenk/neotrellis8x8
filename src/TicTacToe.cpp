@@ -30,11 +30,11 @@ public:
   TicTacToe();
   virtual ~TicTacToe();
 
-  virtual String name() const;
+  virtual String name() const override;
 
-  virtual bool onKey(uint8_t x, uint8_t y, bool rising);
-  virtual uint32_t cellColor(uint8_t x, uint8_t y) const;
-  virtual String cellColorHtml(uint8_t x, uint8_t y) const;
+  virtual bool onKey(uint8_t x, uint8_t y, bool isReleased) override;
+  virtual uint32_t cellColor(uint8_t x, uint8_t y) const override;
+  virtual String cellColorHtml(uint8_t x, uint8_t y) const override;
 };
 
 std::shared_ptr<Game> createTicTacToe()
@@ -109,9 +109,13 @@ auto TicTacToe::cellState(uint8_t x, uint8_t y) const -> CellState
   }
 }
 
-bool TicTacToe::onKey(uint8_t x, uint8_t y, bool rising)
+bool TicTacToe::onKey(uint8_t x, uint8_t y, bool isReleased)
 {
-  if (winner != EMPTY)
+  if (isReleased)
+  {
+    return false;
+  }
+  else if (winner != EMPTY)
   {
     init();
   }
