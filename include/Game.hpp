@@ -31,10 +31,9 @@ class Game
 public:
   Game();
 
+  String name() const;
+
   bool onKey(uint8_t x, uint8_t y, bool rising);
-
   uint32_t cellColor(uint8_t x, uint8_t y) const;
-
-  String
-  cellColorHtml(uint8_t x, uint8_t y) const;
+  String cellColorHtml(uint8_t x, uint8_t y) const;
 };

@@ -35,21 +35,26 @@ void setAll(uint32_t color)
   }
 }
 
-Game game;
+std::shared_ptr<Game> gamePtr;
 
 void showGame()
 {
-  for (uint8_t x = 0; x < 8; ++x)
+  if (auto const gamePtr_ = gamePtr)
   {
-    for (uint8_t y = 0; y < 8; ++y)
+    auto const &game(*gamePtr_);
+
+    for (uint8_t x = 0; x < 8; ++x)
     {
-      auto const pixelColor = game.cellColor(x, y);
+      for (uint8_t y = 0; y < 8; ++y)
+      {
+        auto const pixelColor = game.cellColor(x, y);
 
-      trellis.setPixelColor(x, y, pixelColor);
+        trellis.setPixelColor(x, y, pixelColor);
+      }
     }
-  }
 
-  trellis.show();
+    trellis.show();
+  }
 }
 
 TrellisCallback onKey(keyEvent evt)
@@ -67,9 +72,12 @@ TrellisCallback onKey(keyEvent evt)
     return nullptr;
   }
 
-  if (game.onKey(evt.bit.NUM & 7, (evt.bit.NUM >> 3) & 7, isRising))
+  if (auto const gamePtr_ = gamePtr)
   {
-    showGame();
+    if (gamePtr_->onKey(evt.bit.NUM & 7, (evt.bit.NUM >> 3) & 7, isRising))
+    {
+      showGame();
+    }
   }
 
   return nullptr;
@@ -85,19 +93,29 @@ void handlerRoot()
 {
   String buffer;
 
-  buffer += "<!DOCTYPE html><html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body><table border='1'>";
-  for (uint8_t y = 0; y < 8; ++y)
+  buffer += "<!DOCTYPE html><html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body>";
+
+  if (auto const gamePtr_ = gamePtr)
   {
-    buffer += "<tr>";
-    for (uint8_t x = 0; x < 8; ++x)
+    auto const &game(*gamePtr_);
+
+    buffer += "<h1>";
+    buffer += game.name();
+    buffer += "</h1><table border='1'>";
+    for (uint8_t y = 0; y < 8; ++y)
     {
-      buffer += "<td style='width:20px; height:20px; background-color: ";
-      buffer += game.cellColorHtml(x, y);
-      buffer += ";'/>";
+      buffer += "<tr>";
+      for (uint8_t x = 0; x < 8; ++x)
+      {
+        buffer += "<td style='width:20px; height:20px; background-color: ";
+        buffer += game.cellColorHtml(x, y);
+        buffer += ";'/>";
+      }
+      buffer += "</tr>";
     }
-    buffer += "</tr>";
+    buffer += "</table>";
   }
-  buffer += "</table><p>Battery voltage: ";
+  buffer += "<p>Battery voltage: ";
   buffer += getBatteryVoltage();
   buffer += "V</p></body></html>";
 
@@ -148,9 +166,11 @@ void setup()
     trellis.registerCallback(i, &onKey);
   }
 
-  Serial.println("setup - end");
+  gamePtr = std::make_shared<Game>();
 
   showGame();
+
+  Serial.println("setup - end");
 }
 
 unsigned long secondsOld;

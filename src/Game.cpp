@@ -26,6 +26,11 @@ Game::Game()
   init();
 }
 
+String Game::name() const
+{
+  return "Tic Tac Toe";
+}
+
 void Game::init()
 {
   bzero(field, sizeof(field));
