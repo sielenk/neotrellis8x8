@@ -10,7 +10,7 @@ class ColorToggle
     return "Color Toggle";
   };
 
-  virtual bool onKey(uint8_t x, uint8_t y, bool isReleased)
+  virtual bool onKey(uint8_t x, uint8_t y, bool isReleased) override
   {
     if (isReleased)
     {
@@ -24,17 +24,17 @@ class ColorToggle
     return true;
   }
 
-  virtual uint32_t cellColor(uint8_t x, uint8_t y) const
+  virtual uint32_t cellColor(uint8_t x, uint8_t y) const override
   {
     auto const cell(field[x][y]);
 
-    return (((cell & 1) != 0) * 0x4f0000) |
-           (((cell & 2) != 0) * 0x004f00) |
-           (((cell & 4) != 0) * 0x00004f) |
+    return (((cell & 1) != 0) * 0x3f0000) |
+           (((cell & 2) != 0) * 0x003f00) |
+           (((cell & 4) != 0) * 0x00003f) |
            0;
   }
 
-  virtual String cellColorHtml(uint8_t x, uint8_t y) const
+  virtual String cellColorHtml(uint8_t x, uint8_t y) const override
   {
     auto const cell(field[x][y]);
 
