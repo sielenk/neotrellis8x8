@@ -5,6 +5,11 @@ namespace
 uint64_t const one = 1;
 uint64_t const seven = 7;
 
+uint8_t join(uint8_t x, uint8_t y)
+{
+  return x | (y << 3);
+}
+
 class Triesentis
     : public Game
 {
@@ -23,19 +28,19 @@ class Triesentis
       return false;
     }
 
-    field ^= mask[x | (y << 3)];
+    field ^= mask[join(x, y)];
 
     return true;
   }
 
   virtual uint32_t cellColor(uint8_t x, uint8_t y) const override
   {
-    return (field & (one << (x | (y << 3)))) ? 0x003f00 : 0x3f0000;
+    return (field & (one << join(x, y))) ? 0x003f00 : 0x3f0000;
   }
 
   virtual String cellColorHtml(uint8_t x, uint8_t y) const override
   {
-    return (field & (one << (x | (y << 3)))) ? "green" : "red";
+    return (field & (one << join(x, y))) ? "green" : "red";
   }
 
 public:
