@@ -13,6 +13,7 @@
 #include "Game.hpp"
 #include "games/TicTacToe.hpp"
 #include "games/ColorToggle.hpp"
+#include "games/Trisentis.hpp"
 
 #define INT_PIN 14
 #define ANALOG_PIN A0
@@ -82,11 +83,18 @@ TrellisCallback onKey(keyEvent evt)
 
       pressedKeys.erase(keyId);
 
+      Serial.print("****** ");
+      Serial.print(keyId);
+      Serial.print(" ");
+      Serial.print(duration);
+      Serial.println(" ****** ");
+
       if (duration > 3000) {
         auto newGamePtr = gamePtr;
         switch (keyId) {
-          case 0: newGamePtr = createTicTacToe(); break;
-          case 1: newGamePtr = createColorToggle(); break;
+          case 0: newGamePtr = createColorToggle(); break;
+          case 1: newGamePtr = createTicTacToe(); break;
+          case 2: newGamePtr = createTrisentis(); break;
         }
 
         if (newGamePtr != gamePtr) {
