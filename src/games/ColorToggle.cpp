@@ -1,4 +1,4 @@
-#include "ColorToggle.hpp"
+#include "games/ColorToggle.hpp"
 
 class ColorToggle
     : public Game

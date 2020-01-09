@@ -11,8 +11,8 @@
 #include <Schedule.h>
 
 #include "Game.hpp"
-#include "TicTacToe.hpp"
-#include "ColorToggle.hpp"
+#include "games/TicTacToe.hpp"
+#include "games/ColorToggle.hpp"
 
 #define INT_PIN 14
 #define ANALOG_PIN A0

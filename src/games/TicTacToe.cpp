@@ -1,4 +1,4 @@
-#include "TicTacToe.hpp"
+#include "games/TicTacToe.hpp"
 
 class TicTacToe
     : public Game
