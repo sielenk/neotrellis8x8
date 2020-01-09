@@ -60,14 +60,16 @@ void showGame()
 
 TrellisCallback onKey(keyEvent evt)
 {
-  bool isRising;
+  auto const keyId = evt.bit.NUM;
+
+  bool isReleased;
   switch (evt.bit.EDGE)
   {
-  case SEESAW_KEYPAD_EDGE_FALLING:
-    isRising = false;
-    break;
   case SEESAW_KEYPAD_EDGE_RISING:
-    isRising = false;
+    isReleased = false;
+    break;
+  case SEESAW_KEYPAD_EDGE_FALLING:
+    isReleased = true;
     break;
   default:
     return nullptr;
@@ -75,7 +77,7 @@ TrellisCallback onKey(keyEvent evt)
 
   if (auto const gamePtr_ = gamePtr)
   {
-    if (gamePtr_->onKey(evt.bit.NUM & 7, (evt.bit.NUM >> 3) & 7, isRising))
+    if (gamePtr_->onKey(keyId & 7, (keyId >> 3) & 7, isReleased))
     {
       showGame();
     }
@@ -164,6 +166,7 @@ void setup()
   for (uint8_t i = 0; i < 64; ++i)
   {
     trellis.activateKey(i, SEESAW_KEYPAD_EDGE_RISING);
+    trellis.activateKey(i, SEESAW_KEYPAD_EDGE_FALLING);
     trellis.registerCallback(i, &onKey);
   }
 
