@@ -1,4 +1,5 @@
 #include <memory>
+#include <map>
 
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
@@ -11,6 +12,7 @@
 
 #include "Game.hpp"
 #include "TicTacToe.hpp"
+#include "ColorToggle.hpp"
 
 #define INT_PIN 14
 #define ANALOG_PIN A0
@@ -58,17 +60,42 @@ void showGame()
   }
 }
 
+std::map<uint16_t, unsigned long> pressedKeys;
+
 TrellisCallback onKey(keyEvent evt)
 {
+  auto const now = millis();
   auto const keyId = evt.bit.NUM;
 
   bool isReleased;
   switch (evt.bit.EDGE)
   {
   case SEESAW_KEYPAD_EDGE_RISING:
+    pressedKeys[keyId] = now;
     isReleased = false;
     break;
   case SEESAW_KEYPAD_EDGE_FALLING:
+    if (pressedKeys.count(keyId) > 0)
+    {
+      auto const pressedAt(pressedKeys[keyId]);
+      auto const duration(now - pressedAt);
+
+      pressedKeys.erase(keyId);
+
+      if (duration > 3000) {
+        auto newGamePtr = gamePtr;
+        switch (keyId) {
+          case 0: newGamePtr = createTicTacToe(); break;
+          case 1: newGamePtr = createColorToggle(); break;
+        }
+
+        if (newGamePtr != gamePtr) {
+          gamePtr = newGamePtr;
+          showGame();
+          return nullptr;
+        }
+      }
+    }
     isReleased = true;
     break;
   default:
@@ -170,7 +197,7 @@ void setup()
     trellis.registerCallback(i, &onKey);
   }
 
-  gamePtr = createTicTacToe();
+  gamePtr = createColorToggle();
 
   showGame();
 
