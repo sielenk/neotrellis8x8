@@ -14,6 +14,7 @@
 #include "games/TicTacToe.hpp"
 #include "games/ColorToggle.hpp"
 #include "games/Trisentis.hpp"
+#include "games/ConnectFour.hpp"
 
 #define INT_PIN 14
 #define ANALOG_PIN A0
@@ -102,6 +103,9 @@ TrellisCallback onKey(keyEvent evt)
           break;
         case 2:
           newGamePtr = createTrisentis();
+          break;
+        case 3:
+          newGamePtr = createConnectFour();
           break;
         }
 
@@ -238,6 +242,16 @@ void loop()
     Serial.printf("%lu\t%05.3fV\r\n", secondsNew, val);
 
     secondsOld = secondsNew;
+
+    if (auto const gamePtr_ = gamePtr)
+    {
+      auto &game(*gamePtr_);
+
+      if (game.update(secondsNew))
+      {
+        showGame();
+      }
+    }
   }
 
   server.handleClient();
