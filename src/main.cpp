@@ -89,15 +89,24 @@ TrellisCallback onKey(keyEvent evt)
       Serial.print(duration);
       Serial.println(" ****** ");
 
-      if (duration > 3000) {
+      if (duration > 3000)
+      {
         auto newGamePtr = gamePtr;
-        switch (keyId) {
-          case 0: newGamePtr = createColorToggle(); break;
-          case 1: newGamePtr = createTicTacToe(); break;
-          case 2: newGamePtr = createTrisentis(); break;
+        switch (keyId)
+        {
+        case 0:
+          newGamePtr = createColorToggle();
+          break;
+        case 1:
+          newGamePtr = createTicTacToe();
+          break;
+        case 2:
+          newGamePtr = createTrisentis();
+          break;
         }
 
-        if (newGamePtr != gamePtr) {
+        if (newGamePtr != gamePtr)
+        {
           gamePtr = newGamePtr;
           showGame();
           return nullptr;
