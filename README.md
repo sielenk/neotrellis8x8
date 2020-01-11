@@ -27,7 +27,7 @@
     If four or more fields in a row are detected, they start blinking.
     Pressing button 63 restarts the game at any time.
     
-  * Button 3: [**Trisentis**](https://ivv5hpp.uni-muenster.de/u/cl/disentis/spektrum.pdf) (or [this](https://ivv5hpp.uni-muenster.de/u/cl/Abschiedsvorlesung.pdf), both in german)
+  * Button 3: [**Trisentis**](https://ivv5hpp.uni-muenster.de/u/cl/disentis/spektrum.pdf) (or [this](https://ivv5hpp.uni-muenster.de/u/cl/Abschiedsvorlesung.pdf) starting at slide 12, both in german)
   
     The whole 8x8 field starts red and the goal is to turn it green.
     Pressing a button toggles the eight fields surrounding it.
