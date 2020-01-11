@@ -20,16 +20,16 @@
     After a draw, the grid turns white.
     In both cases the next push of any button starts a new game. 
   
-  * Button 2: [**Connect Four**](https://en.wikipedia.org/wiki/Connect_Four)
+  * Button 2: [**Trisentis**](https://ivv5hpp.uni-muenster.de/u/cl/disentis/spektrum.pdf) (or [this](https://ivv5hpp.uni-muenster.de/u/cl/Abschiedsvorlesung.pdf) starting at slide 12, both in german)
+  
+    The whole 8x8 field starts red and the goal is to turn it green.
+    Pressing a button toggles the eight fields surrounding it.
+  
+  * Button 3: [**Connect Four**](https://en.wikipedia.org/wiki/Connect_Four)
   
     The 6 rows, 7 columns board is framed with blue fields, two of them blinking in the color of the current player.
     When selecting a column by pressing any button in it, the lowest free field is colored according to the current player.
     If four or more fields in a row are detected, they start blinking.
     Pressing button 63 restarts the game at any time.
     
-  * Button 3: [**Trisentis**](https://ivv5hpp.uni-muenster.de/u/cl/disentis/spektrum.pdf) (or [this](https://ivv5hpp.uni-muenster.de/u/cl/Abschiedsvorlesung.pdf) starting at slide 12, both in german)
-  
-    The whole 8x8 field starts red and the goal is to turn it green.
-    Pressing a button toggles the eight fields surrounding it.
-  
 * A basic web page showing the current state of the 8x8 LEDs as a colored HTML table and the current battery voltage.
