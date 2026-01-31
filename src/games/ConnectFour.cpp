@@ -203,6 +203,7 @@ namespace
       case 2:
         return 0x000000; // free
       case 3:
+      default:
         return 0x00003f; // frame
       }
     }
@@ -221,6 +222,7 @@ namespace
       case 2:
         return "black"; // free
       case 3:
+      default:
         return "blue"; // frame
       }
     }
