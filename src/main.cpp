@@ -20,10 +20,11 @@
 #define ANALOG_PIN A0
 
 Adafruit_NeoTrellis trelli[4] = {
-    Adafruit_NeoTrellis{NEO_TRELLIS_ADDR},
-    Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 1},
-    Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 2},
-    Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 3}};
+  Adafruit_NeoTrellis{NEO_TRELLIS_ADDR},
+  Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 1},
+  Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 2},
+  Adafruit_NeoTrellis{NEO_TRELLIS_ADDR + 3}
+};
 
 auto trellis = Adafruit_MultiTrellis{trelli, 2, 2};
 
@@ -46,7 +47,7 @@ void showGame()
 {
   if (auto const gamePtr_ = gamePtr)
   {
-    auto const &game(*gamePtr_);
+    auto const& game(*gamePtr_);
 
     for (uint8_t x = 0; x < 8; ++x)
     {
@@ -144,11 +145,12 @@ void handlerRoot()
 {
   String buffer;
 
-  buffer += "<!DOCTYPE html><html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body>";
+  buffer +=
+    "<!DOCTYPE html><html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body>";
 
   if (auto const gamePtr_ = gamePtr)
   {
-    auto const &game(*gamePtr_);
+    auto const& game(*gamePtr_);
 
     buffer += "<h1>";
     buffer += game.name();
@@ -245,7 +247,7 @@ void loop()
 
     if (auto const gamePtr_ = gamePtr)
     {
-      auto &game(*gamePtr_);
+      auto& game(*gamePtr_);
 
       if (game.update(secondsNew))
       {
