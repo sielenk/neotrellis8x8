@@ -33,8 +33,9 @@ namespace
 
     void init()
     {
-      for (auto& row : field) {
-          row.fill(EMPTY);
+      for (auto& row : field)
+      {
+        row.fill(EMPTY);
       }
       player = PLAYER1;
       winner = EMPTY;

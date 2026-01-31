@@ -49,7 +49,7 @@ namespace
 
       if (
         (scan(playerCells, cell, -shift, winMaskNew) +
-        scan(playerCells, cell, shift, winMaskNew)) >= 3
+          scan(playerCells, cell, shift, winMaskNew)) >= 3
       )
       {
         winMask |= winMaskNew | cell;
