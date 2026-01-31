@@ -127,7 +127,7 @@ namespace
 
     bool update_info(bool flag)
     {
-      auto const fieldOld(*this);
+      auto const fieldOld{*this};
 
       field0 |= info[!flag];
       field1 |= info[!flag];

@@ -19,7 +19,7 @@ class ColorToggle
       return false;
     }
 
-    auto& cell(field[x][y]);
+    auto& cell{field[x][y]};
 
     cell = (cell + 1) & 7;
 
@@ -28,7 +28,7 @@ class ColorToggle
 
   virtual uint32_t cellColor(uint8_t x, uint8_t y) const override
   {
-    auto const cell(field[x][y]);
+    auto const cell{field[x][y]};
 
     return (((cell & 1) != 0) * 0x3f0000) |
       (((cell & 2) != 0) * 0x003f00) |
@@ -38,7 +38,7 @@ class ColorToggle
 
   virtual String cellColorHtml(uint8_t x, uint8_t y) const override
   {
-    auto const cell(field[x][y]);
+    auto const cell{field[x][y]};
 
     auto const color = (((cell & 1) != 0) * 0xff0000) |
       (((cell & 2) != 0) * 0x00ff00) |

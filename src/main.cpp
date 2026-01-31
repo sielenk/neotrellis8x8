@@ -45,7 +45,7 @@ void showGame()
 {
   if (auto const gamePtr_ = gamePtr)
   {
-    auto const& game(*gamePtr_);
+    auto const& game{*gamePtr_};
 
     for (uint8_t x = 0; x < 8; ++x)
     {
@@ -78,8 +78,8 @@ TrellisCallback onKey(keyEvent evt)
   case SEESAW_KEYPAD_EDGE_FALLING:
     if (pressedKeys.count(keyId) > 0)
     {
-      auto const pressedAt(pressedKeys[keyId]);
-      auto const duration(now - pressedAt);
+      auto const pressedAt{pressedKeys[keyId]};
+      auto const duration{now - pressedAt};
 
       pressedKeys.erase(keyId);
 
@@ -148,7 +148,7 @@ void handlerRoot()
 
   if (auto const gamePtr_ = gamePtr)
   {
-    auto const& game(*gamePtr_);
+    auto const& game{*gamePtr_};
 
     buffer += "<h1>";
     buffer += game.name();
@@ -245,7 +245,7 @@ void loop()
 
     if (auto const gamePtr_ = gamePtr)
     {
-      auto& game(*gamePtr_);
+      auto& game{*gamePtr_};
 
       if (game.update(secondsNew))
       {
