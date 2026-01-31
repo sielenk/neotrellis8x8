@@ -1,9 +1,11 @@
+#include <array>
+#include <cstdio>
 #include "games/ColorToggle.hpp"
 
 class ColorToggle
   : public Game
 {
-  uint8_t field[8][8];
+  std::array<std::array<uint8_t, 8>, 8> field{};
 
   virtual String name() const override
   {
@@ -44,7 +46,7 @@ class ColorToggle
       0;
 
     char buffer[16];
-    ets_sprintf(buffer, "#%06x", color);
+    snprintf(buffer, sizeof(buffer), "#%06x", color);
     return buffer;
   }
 };

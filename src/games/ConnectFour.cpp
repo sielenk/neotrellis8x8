@@ -48,8 +48,8 @@ namespace
       uint64_t winMaskNew = 0;
 
       if (
-        scan(playerCells, cell, -shift, winMaskNew) +
-        scan(playerCells, cell, shift, winMaskNew) >= 3
+        (scan(playerCells, cell, -shift, winMaskNew) +
+        scan(playerCells, cell, shift, winMaskNew)) >= 3
       )
       {
         winMask |= winMaskNew | cell;
@@ -96,9 +96,9 @@ namespace
       if (cell != 0)
       {
         field1 ^= cell;
-        field0 ^= cell * player;
+        field0 ^= cell * static_cast<uint64_t>(player);
 
-        auto const playerCells = ((all * !player) ^ field0) & ~field1;
+        auto const playerCells = ((all * static_cast<uint64_t>(!player)) ^ field0) & ~field1;
 
         if (cell & upper_half)
         {
@@ -192,7 +192,7 @@ namespace
     virtual uint32_t cellColor(uint8_t x, uint8_t y) const override
     {
       uint64_t const cell = one << (x | (y << 3));
-      uint8_t const mode = !!(field0 & cell) | (!!(field1 & cell) << 1);
+      uint8_t const mode = (!!(field0 & cell)) | (!!(field1 & cell) << 1);
 
       switch (mode)
       {
@@ -211,7 +211,7 @@ namespace
     virtual String cellColorHtml(uint8_t x, uint8_t y) const override
     {
       uint64_t const cell = one << (x | (y << 3));
-      uint8_t const mode = !!(field0 & cell) | (!!(field1 & cell) << 1);
+      uint8_t const mode = (!!(field0 & cell)) | (!!(field1 & cell) << 1);
 
       switch (mode)
       {

@@ -1,3 +1,5 @@
+#include <array>
+#include <algorithm>
 #include "games/TicTacToe.hpp"
 
 namespace
@@ -25,13 +27,15 @@ namespace
       GRID = UINT8_MAX
     };
 
-    CellState field[3][3];
+    std::array<std::array<CellState, 3>, 3> field;
     CellState player;
     CellState winner;
 
     void init()
     {
-      bzero(field, sizeof(field));
+      for (auto& row : field) {
+          row.fill(EMPTY);
+      }
       player = PLAYER1;
       winner = EMPTY;
     }

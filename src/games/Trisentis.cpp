@@ -1,3 +1,4 @@
+#include <array>
 #include "games/Trisentis.hpp"
 
 namespace
@@ -14,7 +15,7 @@ namespace
     : public Game
   {
     uint64_t field = 0;
-    uint64_t mask[64];
+    std::array<uint64_t, 64> mask;
 
     virtual String name() const override
     {
@@ -45,12 +46,13 @@ namespace
 
   public:
     Triesentis()
+      : mask{}
     {
       for (uint8_t i = 0; i < 64; ++i)
       {
         uint8_t const x = i & 7;
         uint8_t const y = i >> 3;
-        uint64_t const rowMask = (((seven << x) >> 1) & 0xff) << (8 * y);
+        uint64_t const rowMask = (static_cast<uint64_t>((seven << x) >> 1) & 0xff) << (8 * y);
         mask[i] = (rowMask | (rowMask << 8) | (rowMask >> 8)) ^ (one << i);
       }
     }

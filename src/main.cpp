@@ -177,7 +177,7 @@ void handlerIcon()
 {
   auto file = LittleFS.open("/favicon.ico", "r");
   auto const size = file.size();
-  auto const buffer = std::unique_ptr<char>{new char[size]};
+  auto const buffer = std::make_unique<char[]>(size);
 
   file.readBytes(buffer.get(), size);
   server.send(200, "image/x-icon", buffer.get(), size);
