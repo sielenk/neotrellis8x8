@@ -5,7 +5,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <WiFiManager.h>
-#include <FS.h>
+#include <LittleFS.h>
 #include <Adafruit_NeoTrellis.h>
 
 #include "Game.hpp"
@@ -175,7 +175,7 @@ void handlerRoot()
 
 void handlerIcon()
 {
-  auto file = SPIFFS.open("/favicon.ico", "r");
+  auto file = LittleFS.open("/favicon.ico", "r");
   auto const size = file.size();
   auto const buffer = std::unique_ptr<char>{new char[size]};
 
@@ -200,7 +200,7 @@ void setup()
 
   setAll(0x004f00);
 
-  Serial.printf("SPIFFS: %s\r\n", SPIFFS.begin() ? "succeeded" : "failed");
+  Serial.printf("LittleFS: %s\r\n", LittleFS.begin() ? "succeeded" : "failed");
 
   setAll(0x4f0000);
 
