@@ -4,11 +4,9 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-#include <DNSServer.h>
 #include <WiFiManager.h>
 #include <FS.h>
 #include <Adafruit_NeoTrellis.h>
-#include <Schedule.h>
 
 #include "Game.hpp"
 #include "games/TicTacToe.hpp"
