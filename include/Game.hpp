@@ -1,6 +1,12 @@
 #pragma once
 
+#if defined(NATIVE_BUILD)
+#include <string>
+#include <string>
+typedef std::string String;
+#else
 #include <WString.h>
+#endif
 
 class Game
 {
