@@ -2,16 +2,29 @@
 
 namespace
 {
-  uint64_t const one = 0x0000000000000001ull;
-  uint64_t const all = 0xffffffffffffffffull;
-  uint64_t const interior = 0x007e7e7e7e7e7e7eull;
-  uint64_t const upper_half = 0x000e0e0e0e0e0e0eull;
-  uint64_t const info[2] = {one, one << 56};
+  // There are 64 (8x8) cells. ConnectFour has seven columns and six rows.
+  // The leftmost column and the top and bottom row are blue to represent the frame.
+  // They are 0 bits in the "interior" mask.
+  // Each byte is a column, the most significant byte is the leftmost column,
+  // the least significant is the rightmost.
+  // Within each byte, the MSB is the bottom and the LSB the top cell.
+  // This has been done so that dropping a chip into a column "falls down" to the
+  // first non-zero bit in the associated byte.
+
+  uint64_t constexpr one = 0x0000000000000001ull;
+  uint64_t constexpr all = 0xffffffffffffffffull;
+  uint64_t constexpr interior = 0x007e7e7e7e7e7e7eull;
+  uint64_t constexpr column0 = 0x000000000000007eull;
+  uint64_t constexpr upper_half = 0x000e0e0e0e0e0e0eull;
+  uint64_t constexpr info[2] = {one, one << 56};
 
   class ConnectFour
     : public Game
   {
+    // field0 tracks which player has placed a chip in a cell.
+    // 0 is player "false" and 1 is player "true".
     uint64_t field0 = ~interior;
+    // A 1 bit in field1 represents a free cell. The frame is regarded as free.
     uint64_t field1 = all;
     uint64_t winMask = 0;
     bool player = false;
@@ -21,7 +34,11 @@ namespace
       return "Connect Four";
     };
 
-    uint8_t scan(uint64_t const playerCells, uint64_t cell, int8_t const shift, uint64_t& mask)
+    static uint8_t scan(
+      uint64_t const playerCells,
+      uint64_t cell,
+      int8_t const shift,
+      uint64_t& mask)
     {
       int count = 0;
       while (cell)
@@ -89,8 +106,9 @@ namespace
         return false;
       }
 
-      auto const column = uint64_t(0x7e) << (8 * y);
+      auto const column = column0 << (8 * y);
       auto const freeCells = field1 & column;
+      // The "columns" are filled MSB to LSB, higher bits are "lower down".
       auto const cell = (freeCells ^ (freeCells >> 1)) & freeCells;
 
       if (cell != 0)
